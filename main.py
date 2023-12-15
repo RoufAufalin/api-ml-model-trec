@@ -26,14 +26,15 @@ tokenizer.fit_on_texts(texts)
 
 @app.route('/')
 def index():
-    return jsonify({'message': 'Ini adalah API ML T-REC'})
+    return render_template('index.html')
 
 @app.route('/predict', methods=["POST"])  # Removed "GET" method as it's not necessary for prediction
 def predict():
     if request.method == 'POST':
         try:
             # Assuming the 'text' field is provided in the JSON payload
-            text = request.form.get('text')
+            data = request.get_json(force=True)
+            text = data['text']
 
             # Tokenize and pad the input sequence
             sequence = tokenizer.texts_to_sequences([text])
